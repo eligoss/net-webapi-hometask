@@ -66,10 +66,4 @@ public class RestaurantDbContext : DbContext
 
         base.OnModelCreating(modelBuilder);
     }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer(
-            @"Server=tcp:webaspi-hometask-db-server.database.windows.net,1433;Initial Catalog=webapi-hometask-db;Persist Security Info=False;User ID=devtest;Password=Password123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-    }
 }

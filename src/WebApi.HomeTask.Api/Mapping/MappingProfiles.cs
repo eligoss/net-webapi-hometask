@@ -9,9 +9,9 @@ public class MappingProfiles : Profile
 {
     public MappingProfiles()
     {
-        CreateMap<ReservationRequest, ReservationDto>()
-                .ReverseMap();
+        CreateMap<ReservationRequest, ReservationRequestDto>()
+            .ForMember(dest => dest.NumberOfPeople, opt => opt.MapFrom(src => src.NumPeople));
 
-        CreateMap<ReservationDto, ReservationViewModel>().ReverseMap();
+        CreateMap<ReservationResponseDto, ReservationViewModel>().ReverseMap();
     }
 }

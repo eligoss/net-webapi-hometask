@@ -23,5 +23,8 @@ public class ReservationEntityConfig : IEntityTypeConfiguration<ReservationEntit
             .HasOne(g => g.TableSize)
             .WithMany(gt => gt.Reservations)
             .HasForeignKey(b => b.TableSizeId);
+
+        builder
+            .HasIndex(p => new { p.StartTimeEpoch, p.TableSizeId, p.RestaurantId }).IncludeProperties(q => q.TableId);
     }
 }

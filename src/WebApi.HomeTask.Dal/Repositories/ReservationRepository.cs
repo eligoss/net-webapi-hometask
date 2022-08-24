@@ -26,10 +26,10 @@ public class ReservationRepository : IReservationRepository
             amountOfTables);
 
         // Find how many tables are booked at this time for the restaurant with specific size.
+        var endTime = startTime.AddHours(1);
         var tablesReservation = await _restaurantDbContext.Reservations.Where(q =>
                 q.RestaurantId == restaurantId && q.TableSizeId == tableSizeId
-                                               && q.StartTimeEpoch <= startTime.ToUnixTimeMilliseconds() &&
-                                               startTime.ToUnixTimeMilliseconds() >= q.EndTimeEpoch)
+                                               && q.StartTimeEpoch <= startTime.ToUnixTimeMilliseconds() && startTime.ToUnixTimeMilliseconds() <= q.EndTimeEpoch)
             .Select(q => new ReservationEntity
             {
                 TableId = q.TableId
@@ -45,7 +45,7 @@ public class ReservationRepository : IReservationRepository
     }
 
 
-    public async Task CreateReservation(int availableTableId, int restaurantId, DateTimeOffset reservationStartDateTime,
+    public async Task<ReservationEntity> CreateReservation(int availableTableId, int restaurantId, DateTimeOffset reservationStartDateTime,
         int tableSizeId, string ownerName, string ownerPhone)
     {
         var reservation = new ReservationEntity(restaurantId, availableTableId, tableSizeId, reservationStartDateTime,
@@ -54,5 +54,7 @@ public class ReservationRepository : IReservationRepository
 
         _restaurantDbContext.Reservations.Add(reservation);
         await _restaurantDbContext.SaveChangesAsync();
+
+        return reservation;
     }
 }

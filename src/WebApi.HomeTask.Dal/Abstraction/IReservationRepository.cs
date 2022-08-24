@@ -1,3 +1,5 @@
+using WebApi.HomeTask.Dal.Entities;
+
 namespace WebApi.HomeTask.Dal.Abstraction;
 
 public interface IReservationRepository
@@ -6,5 +8,6 @@ public interface IReservationRepository
         int tableSizeId,
         DateTimeOffset startTime, int amountOfTables);
 
-    Task CreateReservation(int availableTableId, int restaurantId, DateTimeOffset reservationDtoReservationDateTime, int tableSizeId, string ownerName, string ownerPhone);
+    Task<ReservationEntity> CreateReservation(int availableTableId, int restaurantId,
+        DateTimeOffset reservationDtoReservationDateTime, int tableSizeId, string ownerName, string ownerPhone);
 }

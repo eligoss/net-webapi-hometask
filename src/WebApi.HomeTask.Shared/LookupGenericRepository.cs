@@ -24,6 +24,6 @@ public class LookupGenericRepository<T> : GenericRepository<T>, ILookupGenericRe
     {
         Logger.LogDebug("LookupGenericRepository.GetByNameAsync");
         return Context.Set<T>()
-            .Where(q => string.Equals(q.Name, name, StringComparison.CurrentCultureIgnoreCase));
+            .Where(q => q.Name.ToLower() == name.ToLower());
     }
 }
