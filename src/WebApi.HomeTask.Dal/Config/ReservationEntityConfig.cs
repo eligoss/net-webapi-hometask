@@ -16,7 +16,8 @@ public class ReservationEntityConfig : IEntityTypeConfiguration<ReservationEntit
         builder
             .HasOne(g => g.Table)
             .WithMany(gt => gt.Reservations)
-            .HasForeignKey(b => b.TableId);
+            .HasForeignKey(b => b.TableId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder
             .HasOne(g => g.TableSize)

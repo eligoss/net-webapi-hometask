@@ -9,7 +9,7 @@ namespace WebApi.HomeTask.Dal.Entities;
 [Table("Tables")]
 public class TableEntity : NameableEntity
 {
-    [StringLength(1024)] public string Description { get; set; }
+    public string Description { get; set; }
 
     public int TableSizeId { get; set; }
 

@@ -11,7 +11,8 @@ public class TableEntityConfig : IEntityTypeConfiguration<TableEntity>
         builder
             .HasOne(g => g.Restaurant)
             .WithMany(gt => gt.Tables)
-            .HasForeignKey(b => b.RestaurantId);
+            .HasForeignKey(b => b.RestaurantId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder
             .HasOne(g => g.Location)
