@@ -8,6 +8,14 @@ public class TableSizeEntityConfig : IEntityTypeConfiguration<TableSizeEntity>
 {
     public void Configure(EntityTypeBuilder<TableSizeEntity> builder)
     {
-     
+        //Add size index.
+        builder
+            .HasIndex(p => p.Size).IncludeProperties(q => q.PeopleCount);
+
+        //TODO: Think later what actual index I will need.
+        
+        //Add people  index.
+        builder
+            .HasIndex(p => p.PeopleCount).IncludeProperties(q => q.Size);
     }
 }

@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using WebApi.HomeTask.Dal.Infrastructure;
@@ -7,7 +6,7 @@ namespace WebApi.HomeTask.Dal.Entities;
 
 [ExcludeFromCodeCoverage]
 [Table("RestaurantTablesSummary")]
-public class RestaurantTablesSummaryEntity : BaseIdEntity<int>
+public class RestaurantTablesSummaryEntity : BaseAuditableEntity
 {
     public int TableSizeId { get; set; }
 

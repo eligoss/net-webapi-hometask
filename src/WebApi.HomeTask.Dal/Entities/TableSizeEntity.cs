@@ -7,9 +7,9 @@ namespace WebApi.HomeTask.Dal.Entities;
 
 [ExcludeFromCodeCoverage]
 [Table("TablesSize")]
-public class TableSizeEntity : NameableEntity
+public class TableSizeEntity : BaseIdEntity<int>
 {
-    [StringLength(512)] [Required] public override string Name { get; set; }
+    [StringLength(64)] [Required] public string Size { get; set; }
 
     [Required] public int PeopleCount { get; set; }
 

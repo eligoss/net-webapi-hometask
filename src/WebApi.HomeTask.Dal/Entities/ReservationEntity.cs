@@ -7,7 +7,7 @@ namespace WebApi.HomeTask.Dal.Entities;
 
 [ExcludeFromCodeCoverage]
 [Table("Reservations")]
-public class ReservationEntity : BaseIdEntity<int>
+public class ReservationEntity : BaseAuditableEntity
 {
     public int RestaurantId { get; set; }
 

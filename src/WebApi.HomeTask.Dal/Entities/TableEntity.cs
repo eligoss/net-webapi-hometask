@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using WebApi.HomeTask.Dal.Infrastructure;
@@ -9,7 +8,7 @@ namespace WebApi.HomeTask.Dal.Entities;
 [Table("Tables")]
 public class TableEntity : NameableEntity
 {
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     public int TableSizeId { get; set; }
 
@@ -26,8 +25,6 @@ public class TableEntity : NameableEntity
     public virtual TableSizeEntity TableSize { get; set; }
 
     public virtual ICollection<ReservationEntity> Reservations { get; set; }
-
-    public virtual ICollection<TableEntity> Tables { get; set; }
 
     #endregion
 }
