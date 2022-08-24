@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebApi.HomeTask.Dal.Entities;
 
@@ -13,7 +14,7 @@ public class ApplicationDbContextSeed
             TableSizeEntity medium = new TableSizeEntity();
             TableSizeEntity large = new TableSizeEntity();
 
-            if (!context.Tables.Any())
+            if (!context.TableSizes.Any())
             {
                 small = new TableSizeEntity
                 {
@@ -30,7 +31,7 @@ public class ApplicationDbContextSeed
                 large = new TableSizeEntity
                 {
                     Name = "Large",
-                    PeopleCount = 6
+                    PeopleCount = 8
                 };
 
                 context.TableSizes.AddRange(small, medium, large);
@@ -38,9 +39,9 @@ public class ApplicationDbContextSeed
             }
             else
             {
-                small = context.TableSizes.First(q => q.Name == "Small");
-                medium = context.TableSizes.First(q => q.Name == "Medium");
-                large = context.TableSizes.First(q => q.Name == "Large");
+                small = await context.TableSizes.FirstAsync(q => q.Name == "Small");
+                medium = await context.TableSizes.FirstAsync(q => q.Name == "Medium");
+                large = await context.TableSizes.FirstAsync(q => q.Name == "Large");
             }
 
             RestaurantEntity abc;
@@ -116,7 +117,7 @@ public class ApplicationDbContextSeed
             }
 
             // Tables
-            if (!context.Locations.Any())
+            if (!context.Tables.Any())
             {
                 var absTables = new List<TableEntity>
                 {
@@ -316,7 +317,7 @@ public class ApplicationDbContextSeed
                         Amount = 1
                     }
                 };
-                
+
                 context.TablesSummaries.AddRange(abcSum);
                 context.TablesSummaries.AddRange(defSum);
                 context.TablesSummaries.AddRange(ghiSum);

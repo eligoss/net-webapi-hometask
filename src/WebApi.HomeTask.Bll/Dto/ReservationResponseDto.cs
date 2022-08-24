@@ -1,6 +1,6 @@
 namespace WebApi.HomeTask.Bll.Dto;
 
-public class ReservationDto
+public class ReservationRequestDto
 {
     public string RestaurantName { get; set; }
 

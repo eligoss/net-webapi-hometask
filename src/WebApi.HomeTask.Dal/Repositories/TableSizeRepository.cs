@@ -20,14 +20,14 @@ public class TableSizeRepository : ITableSizeRepository
     {
         _logger.LogDebug("TableSizeRepository.GetTableSizeId args: peopleCount:{0}", peopleCount);
 
-        var result = await _restaurantDbContext.TableSizes.Where(q => q.PeopleCount > peopleCount)
+        int? result = await _restaurantDbContext.TableSizes.Where(q => q.PeopleCount >= peopleCount)
             .OrderBy(q => q.PeopleCount)
+            .Select(q => q.Id)
             .FirstOrDefaultAsync();
 
-        
-        _logger.LogDebug("TableSizeRepository.GetTableSizeId result:{0}", result?.Id ?? null);
+        _logger.LogDebug("TableSizeRepository.GetTableSizeId result:{0}", result ?? null);
 
-        return result?.Id;
+        return result;
     }
 
     public async Task<int?> GetAvailableTableIdAsync(int restaurantId, int tableSizeId, ICollection<int> blockedTables)
@@ -36,11 +36,12 @@ public class TableSizeRepository : ITableSizeRepository
             "TableSizeRepository.GetAvailableTable args: restaurantId:{0}, tableSizeId{1},blockedTables:{2} ",
             restaurantId, tableSizeId, string.Join(",", blockedTables));
 
-        var result = await
+        int? result = await
             _restaurantDbContext.Tables.Where(q =>
                     q.RestaurantId == restaurantId && q.TableSizeId == tableSizeId && !blockedTables.Contains(q.Id))
+                .Select(q => q.Id)
                 .FirstOrDefaultAsync();
 
-        return result?.Id ?? null;
+        return result;
     }
 }
