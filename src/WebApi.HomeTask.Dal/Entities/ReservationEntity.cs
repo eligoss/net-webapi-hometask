@@ -9,6 +9,22 @@ namespace WebApi.HomeTask.Dal.Entities;
 [Table("Reservations")]
 public class ReservationEntity : BaseAuditableEntity
 {
+    public ReservationEntity()
+    {
+    }
+
+    public ReservationEntity(int restaurantId, int tableId, int tableSizeId, DateTimeOffset startDateTime,
+        string ownerFullName, string ownerPhone)
+    {
+        OwnerFullName = ownerFullName;
+        OwnerPhone = ownerPhone;
+        RestaurantId = restaurantId;
+        TableId = tableId;
+        TableSizeId = tableSizeId;
+        StartDateTime = startDateTime;
+        EndDateTime = startDateTime.AddHours(1);
+    }
+
     public int RestaurantId { get; set; }
 
     public int TableId { get; set; }
@@ -20,14 +36,14 @@ public class ReservationEntity : BaseAuditableEntity
     public long EndTimeEpoch { get; set; }
 
     [NotMapped]
-    public DateTimeOffset StartDateTime
+    private DateTimeOffset StartDateTime
     {
         get => DateTimeOffset.FromUnixTimeSeconds(StartTimeEpoch);
         set => StartTimeEpoch = value.ToUnixTimeMilliseconds();
     }
 
     [NotMapped]
-    public DateTimeOffset EndDateTime
+    private DateTimeOffset EndDateTime
     {
         get => DateTimeOffset.FromUnixTimeSeconds(EndTimeEpoch);
         set => EndTimeEpoch = value.ToUnixTimeMilliseconds();
@@ -39,10 +55,10 @@ public class ReservationEntity : BaseAuditableEntity
     #region Relationships
 
     public virtual RestaurantEntity Restaurant { get; set; }
-    
+
     public virtual TableEntity Table { get; set; }
-    
+
     public virtual TableSizeEntity TableSize { get; set; }
-    
+
     #endregion
 }

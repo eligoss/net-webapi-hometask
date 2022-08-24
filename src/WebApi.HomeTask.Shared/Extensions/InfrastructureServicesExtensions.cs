@@ -10,7 +10,6 @@ public static class InfrastructureServicesExtensions
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration config)
     {
-
         var a = config.GetConnectionString("DbConnection");
         services.AddDbContext<RestaurantDbContext>(x =>
         {
@@ -18,6 +17,7 @@ public static class InfrastructureServicesExtensions
         });
 
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+        services.AddScoped(typeof(ILookupGenericRepository<>), typeof(LookupGenericRepository<>));
 
         return services;
     }

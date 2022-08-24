@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using WebApi.HomeTask.Dal;
 using WebApi.HomeTask.Dal.Infrastructure;
 using WebApi.HomeTask.Shared.Abstraction;
@@ -7,52 +8,65 @@ namespace WebApi.HomeTask.Shared;
 
 public class GenericRepository<T> : IGenericRepository<T> where T : BaseAuditableEntity
 {
-    private readonly RestaurantDbContext _context;
+    protected readonly RestaurantDbContext Context;
+    protected readonly ILogger<GenericRepository<T>> Logger;
 
-    public GenericRepository(RestaurantDbContext context)
+    public GenericRepository(RestaurantDbContext context, ILogger<GenericRepository<T>> logger)
     {
-        _context = context;
+        Context = context;
+        Logger = logger;
     }
 
     public async Task<T> AddAsync(T entity)
     {
-        await _context.Set<T>().AddAsync(entity);
+        Logger.LogDebug("GenericRepository.AddAsync");
+
+        await Context.Set<T>().AddAsync(entity);
         return entity;
     }
 
     public void Delete(T entity)
     {
-        _context.Set<T>().Remove(entity);
+        Logger.LogDebug("GenericRepository.Delete");
+
+        Context.Set<T>().Remove(entity);
     }
 
     public void DeleteRange(ICollection<T> entities)
     {
-        _context.Set<T>().RemoveRange(entities);
+        Logger.LogDebug("GenericRepository.DeleteRange");
+        Context.Set<T>().RemoveRange(entities);
     }
 
     public void Update(T entity)
     {
-        _context.Set<T>().Attach(entity);
-        _context.Entry(entity).State = EntityState.Modified;
+        Logger.LogDebug("GenericRepository.Update");
+
+        Context.Set<T>().Attach(entity);
+        Context.Entry(entity).State = EntityState.Modified;
     }
 
     public async Task<T?> GetByIdAsync(int id)
     {
-        return await _context.Set<T>().FindAsync(id);
+        Logger.LogDebug("GenericRepository.GetByIdAsync");
+        return await Context.Set<T>().FindAsync(id);
     }
 
     public async Task<IReadOnlyList<T>> ListAllAsync()
     {
-        return await _context.Set<T>().ToListAsync();
+        Logger.LogDebug("GenericRepository.ListAllAsync");
+        return await Context.Set<T>().ToListAsync();
     }
 
     public async Task<bool> AnyAsync()
     {
-        return await _context.Set<T>().AnyAsync();
+        Logger.LogDebug("GenericRepository.AnyAsync");
+        return await Context.Set<T>().AnyAsync();
     }
 
     public async Task<int> SaveChangesAsync()
     {
-        return await _context.SaveChangesAsync();
+        Logger.LogDebug("GenericRepository.SaveChangesAsync");
+        return await Context.SaveChangesAsync();
     }
 }
