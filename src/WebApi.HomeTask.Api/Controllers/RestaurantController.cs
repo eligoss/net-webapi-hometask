@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WebApi.HomeTask.Api.Requests;
 
 namespace WebApi.HomeTask.Api.Controllers;
 
@@ -6,11 +7,12 @@ namespace WebApi.HomeTask.Api.Controllers;
 [Route("[controller]")]
 public class RestaurantController : ControllerBase
 {
-    [HttpGet]
+    
+    [HttpPost]
     [ProducesResponseType(typeof(RestaurantViewModel), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public IActionResult Get()
+    public IActionResult CreateReservation([FromBody] ReservationRequest request)
     {
         return Ok(new[]
         {

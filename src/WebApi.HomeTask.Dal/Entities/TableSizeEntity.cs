@@ -9,8 +9,6 @@ namespace WebApi.HomeTask.Dal.Entities;
 [Table("TablesSize")]
 public class TableSizeEntity : NameableEntity
 {
-    [StringLength(512)] [Required] public override string Name { get; set; }
-
     [Required] public int PeopleCount { get; set; }
 
     #region Relationships
