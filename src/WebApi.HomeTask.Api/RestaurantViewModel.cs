@@ -1,0 +1,8 @@
+namespace WebApi.HomeTask.Api;
+
+public class RestaurantViewModel
+{
+    public int Id { get; set; }
+
+    public string Name { get; set; }
+}
