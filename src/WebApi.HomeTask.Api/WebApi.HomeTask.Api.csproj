@@ -8,16 +8,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="11.0.1" />
+        <PackageReference Include="AutoMapper.Collection.EntityFrameworkCore" Version="8.0.0" />
+        <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="5.1.0" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\WebApi.HomeTask.Bll\WebApi.HomeTask.Bll.csproj" />
       <ProjectReference Include="..\WebApi.HomeTask.Shared\WebApi.HomeTask.Shared.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="ViewModels" />
     </ItemGroup>
 
 </Project>
