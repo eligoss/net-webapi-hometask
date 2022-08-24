@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebApi.HomeTask.Dal;
 using WebApi.HomeTask.Shared.Extensions;
-
+using WebApi.HomeTask.Shared.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +36,15 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "Migration failed");
     }
 }
+
+// global cors policy
+app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+
+// global error handler
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 
 // Configure the HTTP request pipeline.

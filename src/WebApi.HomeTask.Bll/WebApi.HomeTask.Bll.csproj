@@ -20,8 +20,4 @@
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Mapping" />
-    </ItemGroup>
-
 </Project>

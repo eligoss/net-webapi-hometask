@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebApi.HomeTask.Dal.Abstraction;
-using WebApi.HomeTask.Dal.Exceptions;
 
 namespace WebApi.HomeTask.Dal.Repositories;
 
@@ -17,7 +16,7 @@ public class TableSizeRepository : ITableSizeRepository
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public async Task<int> GetTableSizeIdAsync(int peopleCount)
+    public async Task<int?> GetTableSizeIdAsync(int peopleCount)
     {
         _logger.LogDebug("TableSizeRepository.GetTableSizeId args: peopleCount:{0}", peopleCount);
 
@@ -25,14 +24,10 @@ public class TableSizeRepository : ITableSizeRepository
             .OrderBy(q => q.PeopleCount)
             .FirstOrDefaultAsync();
 
-        if (result == null)
-        {
-            throw new OutOfTableSizeException($"PeopleCount is larger then biggest available table.");
-        }
+        
+        _logger.LogDebug("TableSizeRepository.GetTableSizeId result:{0}", result?.Id ?? null);
 
-        _logger.LogDebug("TableSizeRepository.GetTableSizeId result:{0}", result.Id);
-
-        return result.Id;
+        return result?.Id;
     }
 
     public async Task<int?> GetAvailableTableIdAsync(int restaurantId, int tableSizeId, ICollection<int> blockedTables)

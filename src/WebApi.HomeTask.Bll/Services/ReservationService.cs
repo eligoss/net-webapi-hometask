@@ -35,20 +35,16 @@ public class ReservationService : IReservationService
 
         await Task.WhenAll(taskTableSize, taskRestaurant);
 
-        var tableSizeId = taskTableSize.Result;
+        var tableSizeIdResult = taskTableSize.Result;
         var restaurant = taskRestaurant.Result;
 
-        if (restaurant == null)
-        {
-            throw new NotFoundException(string.Format(ExceptionMessages.RestaurantNotFound,
-                reservationDto.RestaurantName));
-        }
+        ValidateData(reservationDto, restaurant, tableSizeIdResult);
+        var tableSizeId = tableSizeIdResult!.Value;
 
-        var maxAmountOfTable = restaurant.TablesSummary.First(q => q.TableSizeId == tableSizeId).Amount;
+        var maxAmountOfTable = restaurant!.TablesSummary.First(q => q.TableSizeId == tableSizeId).Amount;
 
         var tableAvailability = await _reservationRepository.CheckTableReservation(restaurant.Id, tableSizeId,
             reservationDto.ReservationDateTime, maxAmountOfTable);
-
 
         if (!tableAvailability.shouldHaveAvailableTable)
         {
@@ -62,9 +58,30 @@ public class ReservationService : IReservationService
         {
             throw new NoAvailableTableException(ExceptionMessages.NoAvailableTables);
         }
-        
+
         //TODO: Remove stubs change to params;
         await _reservationRepository.CreateReservation(availableTableId.Value, restaurant.Id,
             reservationDto.ReservationDateTime, tableSizeId, "OwnerName", "OwnerPhone");
+    }
+
+    private static void ValidateData(ReservationDto reservationDto, RestaurantEntity? restaurant, int? tableSizeId)
+    {
+        if (restaurant == null)
+        {
+            throw new NotFoundException(
+                ExceptionMessages.BuildRestaurantNotFoundMessage(reservationDto.RestaurantName));
+        }
+
+        if (restaurant.OpenTime > reservationDto.ReservationDateTime.TimeOfDay.Ticks ||
+            reservationDto.ReservationDateTime.TimeOfDay.Ticks > restaurant.CloseTime)
+        {
+            throw new OutOfWorkingHoursException(
+                ExceptionMessages.BuildOutOfWorkingHoursMessage(restaurant.OpenTime, restaurant.CloseTime));
+        }
+
+        if (tableSizeId == null)
+        {
+            throw new OutOfTableSizeException($"PeopleCount is larger then biggest available table.");
+        }
     }
 }
