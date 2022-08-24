@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\WebApi.HomeTask.Bll\WebApi.HomeTask.Bll.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Requests" />
+      <Folder Include="ViewModels" />
+    </ItemGroup>
+
+</Project>
